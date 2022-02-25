@@ -1,0 +1,10 @@
+// 配置文件：使用路径别名@的时候可以提示路径
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["./src/*"],
+      }
+    },
+    "exclude": ["node_modules", "dist"]
+  }
