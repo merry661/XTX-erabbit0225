@@ -3,12 +3,21 @@
     <div class="container">
       <ul>
         <template v-if="profile.token">
-            <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{profile.account}}</a></li>
-        <li><a href="javascript:;">退出登录</a></li>
+          <!-- 已登录 -->
+        <li>
+          <router-link to="/member">
+            <i class="iconfont icon-user">
+            </i>{{profile.account}}
+          </router-link>
+        </li>
+        <li><a href="javascript:;" @click="logout()">退出登录</a></li>
         </template>
 
      <template v-else>
-         <li><a href="javascript:;">请先登录</a></li>
+       <!-- 未登录 -->
+         <li>
+           <router-link to="/login">请先登录</router-link>
+         </li>
         <li><a href="javascript:;">免费注册</a></li>
      </template>
 
@@ -26,17 +35,34 @@
 import { computed } from 'vue'
 // 引入vuex
 import { useStore } from 'vuex'
-
+import { useRouter } from 'vue-router'
 export default {
   name: 'AppTopnav',
   setup () {
+    const router = useRouter()
     const store = useStore()// 使用vuex中的state需要设置计算属性，否则不是响应式
     // 1.获取用户信息
     const profile = computed(() => {
       return store.state.user.profile
     })
 
-    return { profile }
+    // 2.点击退出登录
+    const logout = () => {
+      // 1)清空vuex的userInfo
+      const profile = {
+        id: '',
+        avatar: '',
+        nickname: '',
+        account: '',
+        mobile: '',
+        token: ''
+      }
+      store.commit('user/setUserInfo', profile)
+      store.commit('cart/setCartList', [])// 清空购物车
+      router.push('/login') // 2)跳转到登录页面
+    }
+
+    return { profile, logout }
   }
 }
 </script>

@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-import HomeCategory from '@/components/home-category.vue'
+import HomeCategory from './components/home-category'
 import HomeBanner from './components/home-banner.vue'
 import HomeNew from './components/home-new.vue'
 import HomeHot from './components/home-hot.vue'

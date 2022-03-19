@@ -1,8 +1,12 @@
 <template>
 <!-- 首页-左侧菜单组件 -->
-  <div class='home-category'>
+  <div class='home-category' @mouseleave="categoryId = null">
     <ul class="menu">
-      <li v-for="item in categoryList" :key="item.id" @mouseover="categoryId=item.id">
+      <li v-for="item in categoryList"
+        :key="item.id"
+        @mouseenter="categoryId=item.id"
+        :class="{ active: categoryId && categoryId === item.id }"
+      >
         <RouterLink to="/">{{item.name}}</RouterLink>
 
         <template v-if="item.children">
@@ -17,13 +21,12 @@
         </span>
       </li>
     </ul>
-  </div>
 
-    <!-- 弹层 -->
+      <!-- 弹层 -->
     <div class="layer">
       <h4 v-if="currCategory">{{currCategory.id ==="brand"? "品牌":"分类"}}推荐 <small>根据您的购买或浏览记录推荐</small></h4>
 
-      <ul v-if="currCategory && currCategory.goods && currCategory.goods.length">
+      <ul v-if="currCategory && currCategory.goods">
         <li v-for="item in currCategory.goods" :key="item.id">
           <RouterLink to="/">
              <img :src="item.picture" alt="">
@@ -50,7 +53,7 @@
             </li>
         </ul>
     </div>
-
+  </div>
 </template>
 <script>
 // 导入vuex
@@ -59,6 +62,7 @@ import { useStore } from 'vuex'
 import { computed, reactive, ref } from 'vue'
 // 引入接口
 import { getHotBrand } from '@/api/home.js'
+
 export default {
   name: 'HomeCategory',
 
@@ -88,7 +92,7 @@ export default {
       })
 
       list.push(brand)
-      //   console.log(list, 'pp')
+      // console.log(brand, 'pp')
       return list
     })
 
@@ -97,6 +101,7 @@ export default {
     const categoryId = ref(null)
     const currCategory = computed(() => {
       const list = categoryList.value.find((item) => item.id === categoryId.value)
+      // console.log(list, '8888888')
       return list
     })
 
@@ -104,6 +109,7 @@ export default {
     getHotBrand().then((data) => {
       brand.brands = data.result.slice(0, 6)
     })
+
     return { categoryList, currCategory, categoryId }
   }
 }
@@ -113,7 +119,7 @@ export default {
 .home-category {
   width: 250px;
   height: 500px;
-  background: rgba(0,0,0,0.8);
+  background: rgba(0, 0, 0, 0.8);
   position: relative;
   z-index: 99;
   .menu {
@@ -121,7 +127,7 @@ export default {
       padding-left: 40px;
       height: 50px;
       line-height: 50px;
-      &:hover {
+      &:hover,&.active {
         background: @xtxColor;
       }
       a {
@@ -132,21 +138,9 @@ export default {
         }
       }
     }
-    // 骨架部分
-    .xtx-skeleton {
-        animation: fade 1s linear infinite alternate;
-    }
-    @keyframes fade {
-        from {
-            opacity: 0.2;
-        }
-        to {
-            opacity: 1;
-        }
-    }
   }
-}
-.layer {
+// 弹出层样式
+    .layer {
     width: 990px;
     height: 500px;
     background: rgba(255,255,255,0.8);
@@ -192,9 +186,9 @@ export default {
               height: 95px;
           }
           .info {
-              padding-left: 10px;
-              line-height: 24px;
-              width: 190px;
+            padding-left: 10px;
+            line-height: 24px;
+            width: 190px;
             .name {
               font-size: 16px;
               color: #666;
@@ -212,8 +206,8 @@ export default {
           }
         }
       }
-    }
-    li.brand {
+      // 品牌的样式
+      li.brand {
         height: 180px;
         a {
           align-items: flex-start;
@@ -230,12 +224,27 @@ export default {
             }
           }
         }
- }
+      }
+    }
   }
   &:hover {
     .layer {
       display: block;
+      z-index: 999;
     }
   }
+}
 
+// 骨架动画
+.xtx-skeleton {
+  animation: fade 1s linear infinite alternate;
+}
+@keyframes fade {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 1;
+  }
+}
 </style>

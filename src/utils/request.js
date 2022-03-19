@@ -7,6 +7,7 @@ import store from '@/store'
 import router from '@/router'
 
 // 导出基准地址，原因：有些请求不是通过axios发请求的，用该基准地址
+// export const baseURL = 'https://apipc-xiaotuxian-front.itheima.net'
 export const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
 
 // 创建一个新的axios实例
@@ -41,8 +42,6 @@ instance.interceptors.response.use((res) => {
     // 2. 跳转到登录页
     // 3. 跳转需要传参（当前路由地址）给登录页码
     store.commit('user/setUserInfo', {})
-
-    console.log(router.currentRoute.value, '9999')
     const fullPath = encodeURIComponent(router.currentRoute.value.fullPath)// url转码
     router.push('/login?redirectUrl=' + fullPath)
   }
@@ -61,6 +60,6 @@ export default (url, method, submitData) => {
     // [] 设置一个动态的key, 写js表达式，js表达式的执行结果当作KEY
     // method参数：get,Get,GET  转换成小写再来判断
     // 在对象，['params']:submitData ===== params:submitData 这样理解
-    [method.toLowerCase() === 'get' ? 'param' : 'data']: submitData
+    [method.toLowerCase() === 'get' ? 'params' : 'data']: submitData
   })
 }

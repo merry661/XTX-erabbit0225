@@ -8,14 +8,26 @@
         :class="{fade:i===index}"
         @mouseenter="stop()"
         @mouseleave="start()">
-        <RouterLink to="/">
+
+        <RouterLink v-if="item.hrefUrl" :to="item.hrefUrl">
           <img :src="item.imgUrl" alt="">
         </RouterLink>
+        <div v-else class="slider">
+          <router-link v-for="goods in item" :key="goods.id" :to="`/product/${goods.id}`">
+              <img :src="goods.picture" alt="">
+              <p class="name ellipsis">{{goods.name}}</p>
+              <p class="price">&yen;{{goods.price}}</p>
+          </router-link>
+        </div>
       </li>
     </ul>
 
     <!-- 左右箭头 -->
-    <a href="javascript:;"  @click="toggle(-1)" class="carousel-btn prev"><i class="iconfont icon-angle-left"></i></a>
+    <a href="javascript:;"
+      @click="toggle(-1)"
+      class="carousel-btn prev">
+      <i class="iconfont icon-angle-left"></i>
+    </a>
     <a href="javascript:;"  @click="toggle(1)" class="carousel-btn next"><i class="iconfont icon-angle-right"></i></a>
 
     <!-- 底部圆点 -->
@@ -100,7 +112,7 @@ export default {
 
       // 不能一直减，也不能一直加
       if (newIndex < 0) {
-        index.value = props.slider.length
+        index.value = props.slider.length - 1
         return
       } else if (newIndex > props.slider.length - 1) {
         index.value = 0
@@ -197,6 +209,32 @@ export default {
   &:hover {
     .carousel-btn {
       opacity: 1;
+    }
+  }
+}
+
+// 轮播商品
+.slider {
+  display: flex;
+  justify-content: space-around;
+  padding: 0 40px;
+  > a {
+    width: 240px;
+    text-align: center;
+    img {
+      padding: 20px;
+      width: 230px!important;
+      height: 230px!important;
+    }
+    .name {
+      font-size: 16px;
+      color: #666;
+      padding: 0 40px;
+    }
+    .price {
+      font-size: 16px;
+      color: @priceColor;
+      margin-top: 15px;
     }
   }
 }

@@ -3,12 +3,20 @@
     <ul class="app-header-nav">
     <li class="home"><RouterLink to="/">首页</RouterLink></li>
 
-    <li v-for="item in categoryList" :key="item.id" @mouseenter="show1(item)"  @mouseleave="hide1(item)">
-        <router-link :to="`/category/${item.id}`" @click="hide1(item)">{{item.name}}</router-link>
+    <!-- <li v-for="item in categoryList" :key="item.id" @mouseenter="show1(item)"  @mouseleave="hide1(item)"> -->
+       <li v-for="item in categoryList"
+          :key="item.id"
+          @mousemove="show1(item)"
+          @mouseleave="hide1(item)"
+       >
+        <router-link :to="`/category/${item.id}`"
+          @click="hide1(item)"
+          >{{item.name}}</router-link>
 
-        <div class="layer" :class="{open:true}">  <!-- 鼠标滑过a标签，出现layer弹层 -->
+        <div class="layer" :class="{open:item.open}">  <!-- 鼠标滑过a标签，出现layer弹层 -->
             <ul>
                 <li v-for="subItem in item.children" :key="subItem.id">
+
                   <router-link :to="`/category/sub/${subItem.id}`" @click="hide1(item)">
                        <img :src="subItem.picture">
                        <p>{{subItem.name}}</p>
@@ -30,7 +38,6 @@ export default {
   name: 'AppHeaderNav',
   setup () {
     const store = useStore()
-
     // 1.获取全部导航菜单项
     const categoryList = computed(() => {
       return store.state.category.list

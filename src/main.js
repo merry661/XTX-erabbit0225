@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import 'normalize.css'// 引入重置样式的包
 import '@/assets/style/common.less'// 引入自定义 公共样式的包
+import './mock'
 
 // 导入自定义插件
 import ui from './components/library'

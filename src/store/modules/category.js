@@ -24,13 +24,14 @@ export default {
 
     // 2.修改二级分类的open--显示
     show (state, item) {
-      const category = state.list.find((value) => value.id === item.id)
-      category.open = true
+      const currCategory = state.list.find((value) => value.id === item.id)
+      currCategory.open = true
+      // console.log(item, '9999')
     },
     // 3.修改二级分类的open--隐藏
     hide (state, item) {
-      const category = state.list.find((value) => value.id === item.id)
-      category.open = false
+      const currCategory = state.list.find((value) => value.id === item.id)
+      currCategory.open = false
     }
   },
   actions: {

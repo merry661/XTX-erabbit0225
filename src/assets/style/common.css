@@ -1,5 +1,4 @@
 * {
-  /* 所有的元素都 从边框开始计算尺寸 */
   box-sizing: border-box;
 }
 html {
@@ -19,7 +18,6 @@ h4,
 p,
 dl,
 dd {
-  /* 去掉元素的边距 */
   padding: 0;
   margin: 0;
 }
@@ -49,7 +47,6 @@ input[type="checkbox"]::placeholder {
 img {
   max-width: 100%;
   max-height: 100%;
-  /* 去除下限器 */
   vertical-align: middle;
 }
 ul {
@@ -57,7 +54,6 @@ ul {
 }
 #app {
   background: #f5f5f5;
-  /* 不能选中 */
   user-select: none;
 }
 .container {
@@ -65,13 +61,11 @@ ul {
   margin: 0 auto;
   position: relative;
 }
-/* 一行省略 ，超过一行 加省略号*/
 .ellipsis {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
-/* 两行省略 超过两行 加省略号*/
 .ellipsis-2 {
   word-break: break-all;
   text-overflow: ellipsis;
@@ -93,4 +87,27 @@ ul {
   height: 0;
   line-height: 0;
   clear: both;
+}
+.fade-leave-active {
+  position: absolute;
+  width: 100%;
+  transition: opacity 0.5s 0.2s;
+  z-index: 1;
+}
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-right-enter-from,
+.fade-right-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+.fade-right-enter-active,
+.fade-right-leave-active {
+  transition: all 0.4s;
+}
+.fade-right-enter-to,
+.fade-right-leave-from {
+  transform: none;
+  opacity: 1;
 }
