@@ -7,6 +7,8 @@
 所用技术：vue3.0 +vuex + vue-cli + vuex-persistedstate (vuex数据持久化)等
 有诸多不足，望指正，谢谢~~
 
+![image](https://github.com/merry661/XTX-erabbit0225/blob/main/%E9%A2%84%E8%A7%88/%E5%AA%92%E4%BD%931.mp4)
+
 
 # erabbit-pc-vue-project0225
 
